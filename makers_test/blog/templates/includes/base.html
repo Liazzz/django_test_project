@@ -18,11 +18,12 @@
                     <a href="{% url 'logout' %}" class="navbar-text">Logout</a>
                 </li>
             {% else %}
-                <li class="navbar-item ml-auto">
-                    <a class="navbar-text" href="{% url 'login' %}" class="navbar-text">Sign in</a>
+                <li class="navbar-item mr-auto">
+                    <a class="navbar-toggler" href="{% url 'login' %}" class="navbar-text">Sign in</a>
                 </li>
+                <br>
                 <li class="navbar-item">
-                    <a class="navbar-text" href="{% url 'sign-up' %}" class="navbar-text">Sign up</a>
+                    <a class="navbar-toggler" href="{% url 'sign-up' %}" class="navbar-text">Sign up</a>
                 </li>
             {% endif %}
 
