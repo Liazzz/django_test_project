@@ -7,8 +7,29 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-dark bg-dark">
         <a href="{% url 'home-page' %}" class="navbar-text">NEW YORK TIMES</a>
+        <ul class="navbar-nav">
+            {% if request.user.is_authenticated %}
+                <li class="navbar-item">
+                    <span class="navbar-text"> {{ request.user.username }}</span>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}" class="navbar-text">Logout</a>
+                </li>
+            {% else %}
+                <li class="navbar-item ml-auto">
+                    <a class="navbar-text" href="{% url 'login' %}" class="navbar-text">Sign in</a>
+                </li>
+                <li class="navbar-item">
+                    <a class="navbar-text" href="{% url 'sign-up' %}" class="navbar-text">Sign up</a>
+                </li>
+            {% endif %}
+
+        </ul>
+<!--        -->
+<!--        <a href="{% url 'sign-up' %}">Sign up</a>-->
+<!--        <a href="{% url 'login' %}">Sign in</a>-->
     </nav>
     <div class="container">
         {% block body %}{% endblock body %}
