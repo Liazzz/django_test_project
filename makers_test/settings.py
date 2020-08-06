@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-ALLOWED_HOSTS = ['http://localhost', 'http://127.0.0.1', 'https://demo-djangotest.herokuapp.com/']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'demo-djangotest.herokuapp.com']
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = []
