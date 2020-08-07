@@ -89,6 +89,7 @@ WSGI_APPLICATION = 'makers_test.wsgi.application'
 #         'POST': 5432,
 #     }
 # }
+
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
@@ -141,8 +142,8 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = 'account/login/'
+LOGIN_URL = '/accounts/login/'
 LOGOUT_REDIRECT_URL = '/'

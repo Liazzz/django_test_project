@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView, CreateView, DetailView, UpdateView
 
@@ -27,26 +30,45 @@ class ViewsMixin:
         return context
 
 
+class UserHasPermissionMixin(UserPassesTestMixin):
+
+    def test_func(self):
+        return self.request.user.is_authenticated and self.get_object(self.get_queryset()).user == self.request.user
+
+
 class PostDetailsView(DetailView):
     model = Post
     template_name = 'blog/post_details.html'
     context_object_name = 'post'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_has_permission'] = self.request.user.is_authenticated and self.get_object(self.get_queryset()).user == self.request.user
 
-class AddPostView(ViewsMixin, CreateView, ):
+        return context
+
+
+class AddPostView(LoginRequiredMixin, ViewsMixin, CreateView, ):
     model = Post
     template_name = 'blog/add_post.html'
     form_class = AddPostForm
 
+    def form_valid(self, form):
+        user = self.request.user
+        post = form.save(commit=False)
+        post.user = user
+        post.save()
+        return redirect(post.get_absolute_url())
 
-class UpdatePostView(ViewsMixin, UpdateView):
+
+class UpdatePostView(UserHasPermissionMixin,UserPassesTestMixin, ViewsMixin, UpdateView):
     model = Post
     template_name = 'blog/add_post.html'
     form_class = UpdatePostForm
     context_object_name = 'post'
 
 
-class DeletePostView(DeleteView):
+class DeletePostView(UserHasPermissionMixin,DeleteView):
     model = Post
     template_name = 'blog/delete_post.html'
     success_url = reverse_lazy('home-page')
